@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Data from "../../Data/DataBodyContent";
+import axios from "axios";
 const BodyContent = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: flex-start;
 `;
+
 const TitleContent = styled.div`
   width: 80%;
   cursor: pointer;
@@ -19,6 +21,7 @@ const TitleContent = styled.div`
   align-items: center;
   padding-left: 5px;
 `;
+
 const TitleContent1 = styled.div`
   width: 80%;
   cursor: pointer;
@@ -31,6 +34,7 @@ const TitleContent1 = styled.div`
   align-items: center;
   padding-left: 5px;
 `;
+
 const BoxNote = styled.div`
   margin-left: 20px;
   margin-top: 20px;
@@ -44,18 +48,33 @@ const BoxNote = styled.div`
 const BodyContentChild = () => {
   const [toggleList, setToggleList] = useState(Array(Data.length).fill(false));
   const [toggle, setToggle] = useState(false);
+
   const handleToggle = (index) => {
     const updatedToggleList = [...toggleList];
     updatedToggleList[index] = !updatedToggleList[index];
     setToggleList(updatedToggleList);
   };
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Gọi API để lấy dữ liệu
+    axios
+      .get("http://localhost:6001/api/v1/title")
+      .then((response) => {
+        // Cập nhật dữ liệu vào state
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
   return (
     <BodyContent>
-      {Data.map((index, i) => (
-        <BoxNote key={index.id}>
-          {index.title}
+      {Data.map((item, index) => (
+        <BoxNote key={item.id}>
+          {item.title}
           <TitleContent
-            key={index.id}
+            key={item.id}
             style={{
               backgroundColor: "rgba(179, 179, 179, 0.2)",
               borderRadius: "5px",
@@ -69,13 +88,15 @@ const BodyContentChild = () => {
             }}
           >
             <p onClick={() => setToggle(!toggle)} style={{ fontSize: "15px" }}>
-              {index.task}
+              {item.task}
             </p>
-            {index.tagTrash}
+            {item.tagTrash}
           </TitleContent>
 
           <form
-            style={toggleList[i] ? { display: "block" } : { display: "none" }}
+            style={
+              toggleList[index] ? { display: "block" } : { display: "none" }
+            }
           >
             <div
               style={{
@@ -86,7 +107,6 @@ const BodyContentChild = () => {
               }}
             >
               <div>
-                {" "}
                 <input
                   type="text"
                   style={{
@@ -109,7 +129,6 @@ const BodyContentChild = () => {
                     cursor: "pointer",
                   }}
                 >
-                  {" "}
                   <input
                     type="submit"
                     style={{
@@ -121,7 +140,7 @@ const BodyContentChild = () => {
                     }}
                   />
                   <div
-                    onClick={() => handleToggle(i)}
+                    onClick={() => handleToggle(index)}
                     style={{
                       background: "#5d73d0",
                       marginTop: "8px",
@@ -139,7 +158,7 @@ const BodyContentChild = () => {
 
           <TitleContent
             style={
-              toggleList[i]
+              toggleList[index]
                 ? {
                     display: "none",
                   }
@@ -155,7 +174,7 @@ const BodyContentChild = () => {
             }
           >
             <div
-              onClick={() => handleToggle(i)}
+              onClick={() => handleToggle(index)}
               style={{
                 fontSize: "15px",
                 display: "flex",
@@ -163,16 +182,15 @@ const BodyContentChild = () => {
                 justifyContent: "center",
               }}
             >
-              {" "}
-              {index.tagPlus} {index.addTask}
+              {item.tagPlus} {item.addTask}
             </div>
-            {index.tagTable}
+            {item.tagTable}
           </TitleContent>
         </BoxNote>
       ))}
       <div
         style={
-          toggle == true
+          toggle === true
             ? {
                 position: "absolute",
                 zIndex: "100",

@@ -4,8 +4,17 @@ import {
   FileEarmarkPerson,
   BellFill,
   XCircleFill,
+  BoxArrowRight,
 } from "react-bootstrap-icons";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import {
+  logoutFailure,
+  logoutStart,
+  logoutSuccess,
+} from "../../redux/userRedux";
+import { publicRequest } from "../../requestMethods";
+
 const Right = styled.div`
   width: 530px;
   height: 80%;
@@ -107,6 +116,21 @@ const Close = styled.div`
   }
 `;
 const HeaderRight = () => {
+  // const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    dispatch(logoutStart());
+
+    try {
+      await publicRequest.post("http://localhost:6001/api/v1/auth/logout");
+
+      // Gửi action để cập nhật Redux store với trạng thái đăng xuất
+      dispatch(logoutSuccess());
+    } catch (err) {
+      // Xử lý lỗi nếu có
+      dispatch(logoutFailure());
+    }
+  };
   return (
     <Right>
       <Info>
@@ -126,6 +150,9 @@ const HeaderRight = () => {
       </Notify>
       <Close>
         <XCircleFill size={16} fill={"#fff"} />
+      </Close>
+      <Close onClick={handleLogout}>
+        <BoxArrowRight size={16} fill={"#fff"} />
       </Close>
     </Right>
   );
