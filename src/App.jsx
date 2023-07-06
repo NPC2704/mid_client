@@ -5,17 +5,16 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useSelector } from "react-redux";
-import { useState } from "react";
 function App() {
-  const [darkMode, setDarkMode] = useState(false); // Trạng thái chế độ sáng/tối
   const user = useSelector((state) => state.user.currentUser);
 
-  // Hàm xử lý chuyển đổi chế độ sáng/tối
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
   return (
-    <div className={darkMode ? "dark" : "light"}>
+    <div>
+      {/* <Router>
+        <Routes>
+          <Route exact path="/" element={<Home />}></Route>
+        </Routes>
+      </Router> */}
       <Router>
         <Routes>
           <Route
