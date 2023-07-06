@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { FolderFill, TrashFill, SunFill, Moon } from "react-bootstrap-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleMode } from "../../redux/themeSlice";
 import Data from "../../Data/DataHeaderContentRight";
 const HeaderContentRights = styled.div`
+  transition: background-color 0.3s ease;
   width: 17%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const Notify = styled.div`
   font-size: 20px;
@@ -26,22 +33,32 @@ const Notify = styled.div`
   }
 `;
 const HeaderContentRight = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const mode = useSelector((state) => state.theme.mode);
+  const dispatch = useDispatch();
+
+  const handleToggleMode = () => {
+    setDarkMode(mode);
+    dispatch(toggleMode());
+  };
   return (
-    <HeaderContentRights>
-      {/* <Notify>
+    <HeaderContentRights darkMode={darkMode}>
+      <Notify>
         <FolderFill size={16} fill={"#fff"} />
       </Notify>
       <Notify>
         <TrashFill size={16} fill={"#fff"} />
       </Notify>
-      <Notify>
-        <SunFill size={16} fill={"#fff"} />
-      </Notify> */}
-      {Data.map((index) => (
-        <Notify key={index.id}>{index.tag}</Notify>
-      ))}
+
+      <Notify onClick={handleToggleMode}>
+        {darkMode === true ? (
+          <Moon size={16} fill={"#fff"} />
+        ) : (
+          <SunFill size={16} fill={"#fff"} />
+        )}
+      </Notify>
     </HeaderContentRights>
   );
 };
-
 export default HeaderContentRight;

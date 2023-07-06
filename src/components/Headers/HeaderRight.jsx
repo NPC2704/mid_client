@@ -6,8 +6,10 @@ import {
   XCircleFill,
   BoxArrowRight,
 } from "react-bootstrap-icons";
+import { logout } from "../../utils/apiRoutes";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   logoutFailure,
   logoutStart,
@@ -28,6 +30,9 @@ const Info = styled.div`
   height: 80%;
   display: flex;
   align-items: center;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const Icon = styled.div`
   height: 100%;
@@ -63,6 +68,9 @@ const Name = styled.div`
   margin-left: 20px;
   align-items: center;
   justify-content: center;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const Avatar = styled.div`
   height: 100%;
@@ -97,6 +105,11 @@ const Notify = styled.div`
   &:hover {
     background: #151515;
   }
+  @media (max-width: 768px) {
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+  }
 `;
 const Close = styled.div`
   font-size: 20px;
@@ -114,15 +127,21 @@ const Close = styled.div`
   &:hover {
     background: red;
   }
+  @media (max-width: 768px) {
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    margin-right: 10px;
+  }
 `;
 const HeaderRight = () => {
-  // const user = useSelector((state) => state.user.currentUser);
+ 
   const dispatch = useDispatch();
   const handleLogout = async () => {
     dispatch(logoutStart());
 
     try {
-      await publicRequest.post("http://localhost:6001/api/v1/auth/logout");
+      await publicRequest.post(logout);
 
       // Gửi action để cập nhật Redux store với trạng thái đăng xuất
       dispatch(logoutSuccess());

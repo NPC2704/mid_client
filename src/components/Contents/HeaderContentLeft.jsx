@@ -9,20 +9,33 @@ const HeaderContentLefts = styled.div`
 
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 50px;
+  }
 `;
 const HeaderContentLeftChild = styled.div`
   height: 100%;
-  margin: 0 10px;
+
   cursor: pointer;
   display: flex;
+  margin: 0 10px;
   &:hover {
     border-bottom: 2px solid #6f8bff;
     color: #6f8bff;
+  }
+  @media (max-width: 768px) {
+    margin: 0 5px;
   }
 `;
 const Title = styled.div`
   color: #e8e8e9;
   font-size: 15px;
+  margin-left: 5px;
+  @media (max-width: 768px) {
+    font-size: 10px;
+    margin-left: 5px;
+  }
 `;
 const HeaderContentLeft = () => {
   return (
@@ -40,7 +53,7 @@ const HeaderContentLeft = () => {
             }}
           >
             {index.tag}
-            <Title style={{ marginLeft: "5px" }}>{index.nameIcon}</Title>
+            <Title>{index.nameIcon}</Title>
           </div>
         </HeaderContentLeftChild>
       ))}

@@ -1,7 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import cartReducer from "./cartRedux";
+
 import userReducer from "./userRedux";
-import searchReducer from "./searchSlice";
+import themeReducer from "./themeSlice";
+import responSlice from "./responSlice";
 import {
   persistStore,
   persistReducer,
@@ -20,12 +21,15 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ user: userReducer, cart: cartReducer });
+const rootReducer = combineReducers({
+  user: userReducer,
+  theme: themeReducer,
+  respon: responSlice,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  search: searchReducer,
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

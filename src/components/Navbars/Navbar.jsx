@@ -1,22 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  CompassFill,
-  StarFill,
-  ChatDotsFill,
-  BarChartFill,
-  Globe,
-  Building,
-} from "react-bootstrap-icons";
-
-import Logo1 from "../../assets/logo.jpg";
+import { useSelector } from "react-redux";
 import NavbarTop from "./NavbarTop";
 import NavbarBottom from "./NavbarBottom";
 const Container = styled.div`
   width: 5%;
   height: 100%;
-  background-color: #2b2b2b;
+  background-color: ${(props) => (props.darkMode ? "#fff" : "#2b2b2b")};
   position: relative;
+  @media (max-width: 768px) {
+    width: 15%;
+  }
 `;
 
 const Top = styled.div`
@@ -61,8 +55,9 @@ const UserAvatar = styled.img`
   border-radius: 50%;
 `;
 const Navbar = () => {
+  const mode = useSelector((state) => state.theme.mode);
   return (
-    <Container>
+    <Container darkMode={mode === true}>
       <NavbarTop />
       <NavbarBottom />
     </Container>

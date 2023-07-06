@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Data from "../../Data/DataHeader";
 import { MenuApp, ThreeDots } from "react-bootstrap-icons";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleResponsive } from "../../redux/responSlice";
 const Left = styled.div`
   width: 600px;
   height: 80%;
@@ -17,17 +19,23 @@ const Logo = styled.p`
   cursor: pointer;
   font-weight: 400;
 `;
-const Opition = styled.div`
+const Opition2 = styled.div`
   display: flex;
   margin-left: 10px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const NameOpition = styled.p`
   font-size: 11px;
   color: #768aad;
   margin: 0 10px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const MenuS = styled.div`
   font-size: 20px;
@@ -48,18 +56,28 @@ const MenuS = styled.div`
   }
 `;
 const HeaderLeft = () => {
+  const [respone, setRespone] = useState("0");
+
+  const responsive = useSelector((state) => state.respon.responsive);
+  const dispatch = useDispatch();
+
+  const handleToggleResponsive = () => {
+    setRespone(responsive);
+    dispatch(toggleResponsive());
+  };
   return (
     <Left>
+      {/* <Option1 style={{ display: "none" }} toggle1={toggle1} /> */}
       <MenuS>
-        <MenuApp />
+        <MenuApp onClick={handleToggleResponsive} />
       </MenuS>
       <Logo>Constructor</Logo>
-      <Opition>
+      <Opition2>
         {Data.map((index) => (
           <NameOpition key={index.id}>{index.title}</NameOpition>
         ))}
         <ThreeDots size={16} fill={"#768aad"} style={{ marginLeft: "10px" }} />
-      </Opition>
+      </Opition2>
     </Left>
   );
 };

@@ -1,4 +1,5 @@
 import { FolderFill, TrashFill, SunFill } from "react-bootstrap-icons";
+
 const DataHeaderContentRight = [
   {
     id: 1,
@@ -13,7 +14,7 @@ const DataHeaderContentRight = [
   {
     id: 3,
     tag: <SunFill size={16} fill={"#fff"} />,
-    callBack: () => {},
+    callBackDark: () => {},
   },
 ];
 export default DataHeaderContentRight;
